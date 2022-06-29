@@ -14,13 +14,12 @@ function TeamList() {
             }
         };
 
-        const { teams } = await axios
+        await axios
                 .request(options)
-                .then(response => { setTeams(response.data); })
+                .then(response => { setTeams(response.data.data); })
             
                 .catch(error => { console.log(error, "error"); });
 
-        setTeams(teams);
         }
         
     useEffect(() => {
@@ -32,13 +31,12 @@ function TeamList() {
             <div className="container">
                 La liste des equipes
             </div>
-            {
-
-                console.log(teams)
+            { 
+                // console.log(teams)
             }
             {
-                teams['data'].map((team) =>
-                    <div key={team.id} className="team-item">{ team.full_name }</div>
+                teams.map((team) =>
+                    <div key={ team.id } className="team-item">{ team.full_name }</div>
                 )
             }
         </>
