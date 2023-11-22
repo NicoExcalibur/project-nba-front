@@ -38,16 +38,20 @@ function TeamList() {
 
         {console.log(teams)}
         <div className="teams-container">
-          {teams.map((team) => (
-            <div key={team.id} className="team-card">
-              <div key={team.abbreviation} className="team-logo">
-                <img src={`${team.logo}`} alt="" />
+          {teams
+            .filter(
+              (team) => team.nbaFranchise === true && team.allStar === false
+            )
+            .map((team) => (
+              <div key={team.id} className="team-card">
+                <div key={team.abbreviation} className="team-logo">
+                  <img src={`${team.logo}`} alt="" />
+                </div>
+                <div key={team.id} className="team-item">
+                  {team.name}
+                </div>
               </div>
-              <div key={team.id} className="team-item">
-                {team.name}
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
     </>
