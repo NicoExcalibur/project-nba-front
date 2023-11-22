@@ -43,7 +43,7 @@ function TeamList() {
               <div key={team.abbreviation} className="team-logo">
                 <img src={`${team.logo}`} alt="" />
               </div>
-              <div key={team.city} className="team-item">
+              <div key={team.id} className="team-item">
                 {team.name}
               </div>
             </div>
