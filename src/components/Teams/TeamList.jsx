@@ -2,62 +2,56 @@ import React, { useEffect, useState } from "react";
 import "./TeamList.css";
 import axios from "axios";
 
-
 function TeamList() {
+  const [teams, setTeams] = useState([]);
 
-    const [teams, setTeams] = useState([]);
+  const getTeamList = async () => {
+    // let teamsApi = [];
+    const options = {
+      method: "GET",
+      url: "https://api-nba-v1.p.rapidapi.com/teams",
+      headers: {
+        "X-RapidAPI-Key": "0e6190caecmsh8fa6ff975750c12p15cc8fjsn1434a49d0401",
+        "X-RapidAPI-Host": "api-nba-v1.p.rapidapi.com",
+      },
+    };
 
-    const getTeamList = async () => {
-        // let teamsApi = [];
-        const options = {
-            method: 'GET',
-            url: 'https://www.balldontlie.io/api/v1/teams',
-            headers: {
-              Accept: 'application/json',
-            }
-        };
+    await axios
+      .request(options)
+      .then((response) => {
+        console.log(response.data.response);
+        setTeams(response.data.response);
+      })
+      .catch((error) => {
+        console.log(error, "error");
+      });
+  };
 
-        await axios
-            .request(options)
-            .then(response => { setTeams(response.data.data); })
-            .catch(error => { console.log(error, "error"); });
+  useEffect(() => {
+    getTeamList();
+  }, []);
 
-    }
-        
-    useEffect(() => {
-        getTeamList();
-    }, []); 
+  return (
+    <>
+      <div className="teamlist-container">
+        <h2>La liste des equipes :</h2>
 
-    const baseUrl = "img/";
-
-    return (
-        <>
-            <div className="teamlist-container">
-                <h2>
-                    La liste des equipes :
-                </h2>
-
-                { 
-                    console.log(teams)
-                }
-                <div className="teams-container">
-                {
-                    teams.map((team) =>
-                    <div key={team.id} className="team-card">
-                        <div key={team.abbreviation} className="team-logo">
-                        <img src={`${baseUrl}${ team.name }.svg`} alt=""/>
-                        </div>
-                        <div key={team.city} className="team-item">
-                        { team.full_name }
-                        </div>
-                    </div>
-                    
-                    )
-                }
-                </div>
+        {console.log(teams)}
+        <div className="teams-container">
+          {teams.map((team) => (
+            <div key={team.id} className="team-card">
+              <div key={team.abbreviation} className="team-logo">
+                <img src={`${team.logo}`} alt="" />
+              </div>
+              <div key={team.city} className="team-item">
+                {team.name}
+              </div>
             </div>
-        </>
-    );
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default TeamList;
