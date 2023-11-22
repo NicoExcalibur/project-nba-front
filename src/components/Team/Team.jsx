@@ -3,15 +3,36 @@ import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
 function Team() {
-  const [players, setPlayers] = useState([]);
   const params = useParams();
+  const [players, setPlayers] = useState([]);
+  const [currentTeam, setCurrentTeam] = useState([]);
   console.log(params);
-
-  console.log(params.id);
-  console.log(new Date().getFullYear());
 
   const baseURL = process.env.REACT_APP_BASE_URL;
   const apiKey = process.env.REACT_APP_API_KEY;
+  const host = process.env.REACT_APP_API_HOST;
+
+  const getCurrentTeam = async () => {
+    const options = {
+      method: "GET",
+      url: baseURL + "/teams",
+      params: params,
+      headers: {
+        "X-RapidAPI-Key": apiKey,
+        "X-RapidAPI-Host": host,
+      },
+    };
+
+    await axios
+      .request(options)
+      .then((response) => {
+        console.log(response.data.response[0]);
+        setCurrentTeam(response.data.response[0]);
+      })
+      .catch((error) => {
+        console.log(error, "error");
+      });
+  };
 
   const getPlayersList = async () => {
     const options = {
@@ -23,7 +44,7 @@ function Team() {
       },
       headers: {
         "X-RapidAPI-Key": apiKey,
-        "X-RapidAPI-Host": "api-nba-v1.p.rapidapi.com",
+        "X-RapidAPI-Host": host,
       },
     };
 
@@ -43,14 +64,20 @@ function Team() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getCurrentTeam();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log(currentTeam);
   return (
     <div className="team-container">
-      <h2>Team {params.id}</h2>
+      <h2>Team {currentTeam.name}</h2>
       <div className="players-container">
         {players.map((player) => (
           <div key={player.id} className="player-card">
-            <div key={player.id} className="player-photo"></div>
-            <div key={player.id} className="player-item">
+            <div className="player-photo"></div>
+            <div className="player-item">
               <Link to={`/player/${player.id}`}>
                 {player.firstname} {player.lastname}
               </Link>

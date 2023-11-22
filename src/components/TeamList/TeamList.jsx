@@ -8,6 +8,7 @@ function TeamList() {
 
   const baseURL = process.env.REACT_APP_BASE_URL;
   const apiKey = process.env.REACT_APP_API_KEY;
+  const host = process.env.REACT_APP_API_HOST;
 
   const getTeamList = async () => {
     const options = {
@@ -15,7 +16,7 @@ function TeamList() {
       url: baseURL + "/teams",
       headers: {
         "X-RapidAPI-Key": apiKey,
-        "X-RapidAPI-Host": "api-nba-v1.p.rapidapi.com",
+        "X-RapidAPI-Host": host,
       },
     };
 
@@ -48,10 +49,10 @@ function TeamList() {
             )
             .map((team) => (
               <div key={team.id} className="team-card">
-                <div key={team.id} className="team-logo">
+                <div className="team-logo">
                   <img src={`${team.logo}`} alt="" />
                 </div>
-                <div key={team.id} className="team-item">
+                <div className="team-item">
                   <Link to={`/team/${team.id}`}>{team.name}</Link>
                 </div>
               </div>
