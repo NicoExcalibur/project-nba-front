@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./TeamList.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function TeamList() {
   const [teams, setTeams] = useState([]);
@@ -47,11 +48,11 @@ function TeamList() {
             )
             .map((team) => (
               <div key={team.id} className="team-card">
-                <div key={team.abbreviation} className="team-logo">
+                <div key={team.id} className="team-logo">
                   <img src={`${team.logo}`} alt="" />
                 </div>
                 <div key={team.id} className="team-item">
-                  {team.name}
+                  <Link to={`/team/${team.id}`}>{team.name}</Link>
                 </div>
               </div>
             ))}
