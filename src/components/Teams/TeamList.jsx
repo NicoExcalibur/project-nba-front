@@ -5,13 +5,15 @@ import axios from "axios";
 function TeamList() {
   const [teams, setTeams] = useState([]);
 
+  const baseURL = process.env.REACT_APP_BASE_URL;
+  const apiKey = process.env.REACT_APP_API_KEY;
+
   const getTeamList = async () => {
-    // let teamsApi = [];
     const options = {
       method: "GET",
-      url: "https://api-nba-v1.p.rapidapi.com/teams",
+      url: baseURL + "/teams",
       headers: {
-        "X-RapidAPI-Key": "0e6190caecmsh8fa6ff975750c12p15cc8fjsn1434a49d0401",
+        "X-RapidAPI-Key": apiKey,
         "X-RapidAPI-Host": "api-nba-v1.p.rapidapi.com",
       },
     };
@@ -29,6 +31,7 @@ function TeamList() {
 
   useEffect(() => {
     getTeamList();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
