@@ -4,11 +4,11 @@ import { useParams, Link } from "react-router-dom";
 
 function Team() {
   const params = useParams();
-  console.log(params.id);
+  // console.log(params.id);
   const [players, setPlayers] = useState([]);
   // const [currentTeam, setCurrentTeam] = useState([]);
   const [currentTeamStats, setCurrentTeamStats] = useState([]);
-  const [teamStandings, setTeamStandings] = useState([]);
+  const [teamStandings, setTeamStandings] = useState(undefined);
   // console.log(params);
 
   const baseURL = process.env.REACT_APP_BASE_URL;
@@ -62,7 +62,7 @@ function Team() {
       });
   };
 
-  const getTeamStandings = async () => {
+  const getTeamStandings = () => {
     const options = {
       method: "GET",
       url: baseURL + "/standings",
@@ -76,8 +76,8 @@ function Team() {
         "X-RapidAPI-Host": host,
       },
     };
-
-    await axios
+    console.log("coucou");
+    axios
       .request(options)
       .then((response) => {
         console.log("Standings :", response.data.response[0]);
@@ -115,27 +115,15 @@ function Team() {
 
   useEffect(() => {
     getTeamStandings();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  // useEffect(() => {
-  //   getCurrentTeam();
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
-
-  useEffect(() => {
     getCurrentTeamStats();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     getPlayersList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(teamStandings);
+
+  console.log("2", teamStandings);
   return (
     <div className="team-container">
-      <h2>Team :</h2>
+      <h2>Team {!teamStandings ? "loading" : teamStandings.team.name}:</h2>
       <img src="" alt="" />
       <div className="team-stats">
         <div className="team-rank">
