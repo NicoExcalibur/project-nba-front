@@ -8,7 +8,7 @@ function Team() {
   const [players, setPlayers] = useState([]);
   // const [currentTeam, setCurrentTeam] = useState([]);
   const [currentTeamStats, setCurrentTeamStats] = useState([]);
-  const [teamStandings, setTeamStandings] = useState(undefined);
+  const [teamStandings, setTeamStandings] = useState();
   // console.log(params);
 
   const baseURL = process.env.REACT_APP_BASE_URL;
