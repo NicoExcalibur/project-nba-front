@@ -6,7 +6,6 @@ function Team() {
   const params = useParams();
   // console.log(params.id);
   const [players, setPlayers] = useState([]);
-  // const [currentTeam, setCurrentTeam] = useState([]);
   const [currentTeamStats, setCurrentTeamStats] = useState([]);
   const [teamStandings, setTeamStandings] = useState();
   // console.log(params);
@@ -14,28 +13,6 @@ function Team() {
   const baseURL = process.env.REACT_APP_BASE_URL;
   const apiKey = process.env.REACT_APP_API_KEY;
   const host = process.env.REACT_APP_API_HOST;
-
-  // const getCurrentTeam = async () => {
-  //   const options = {
-  //     method: "GET",
-  //     url: baseURL + "/teams",
-  //     params: params,
-  //     headers: {
-  //       "X-RapidAPI-Key": apiKey,
-  //       "X-RapidAPI-Host": host,
-  //     },
-  //   };
-
-  //   await axios
-  //     .request(options)
-  //     .then((response) => {
-  //       console.log(response.data.response[0]);
-  //       setCurrentTeam(response.data.response[0]);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error, "error");
-  //     });
-  // };
 
   const getCurrentTeamStats = async () => {
     const options = {
@@ -54,7 +31,7 @@ function Team() {
     await axios
       .request(options)
       .then((response) => {
-        console.log("teamStats :", response.data.response[0]);
+        // console.log("teamStats :", response.data.response[0]);
         setCurrentTeamStats(response.data.response[0]);
       })
       .catch((error) => {
@@ -76,11 +53,11 @@ function Team() {
         "X-RapidAPI-Host": host,
       },
     };
-    console.log("coucou");
+
     axios
       .request(options)
       .then((response) => {
-        console.log("Standings :", response.data.response[0]);
+        // console.log("Standings :", response.data.response[0]);
         setTeamStandings(response.data.response[0]);
       })
       .catch((error) => {
@@ -105,7 +82,7 @@ function Team() {
     await axios
       .request(options)
       .then((response) => {
-        console.log("Players :", response.data.response);
+        // console.log("Players :", response.data.response);
         setPlayers(response.data.response);
       })
       .catch((error) => {
@@ -120,7 +97,6 @@ function Team() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log("2", teamStandings);
   return (
     <div className="team-container">
       <h2>Team {!teamStandings ? "loading" : teamStandings.team.name}:</h2>
